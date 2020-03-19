@@ -61,7 +61,7 @@ static struct asoc_simple_card_info default_snd_rpi_simple_card_info = {
 };
 
 static struct platform_device default_snd_rpi_simple_card_device = {
-	.name = "snd_rpi_i2s_card", //module alias
+	.name = "asoc-simple-card", //module alias
 	.id = 0,
 	.num_resources = 0,
 	.dev = {
