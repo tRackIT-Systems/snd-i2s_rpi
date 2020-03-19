@@ -21,7 +21,7 @@ Then do the following
 
 $ sudo apt install dkms raspberrypi-kernel-headers
 
-$ sudo dpkg -i snd-i2s-rpi-dkms_0.0.2_all.deb
+$ sudo dpkg -i snd-i2s-rpi-dkms_0.0.3_all.deb
 
 # For this to work, remember to modify these first:
 # /boot/config.txt -> dtparam=i2s=on
@@ -41,7 +41,7 @@ $ dmesg | grep i2s
 # it should say blah.i2s mapping OK
 
 # [    3.519017] snd_i2s_rpi: loading out-of-tree module taints kernel.
-# [    3.519881] snd-i2s_rpi: Version 0.0.2
+# [    3.519881] snd-i2s_rpi: Version 0.0.3
 # [    3.519889] snd-i2s_rpi: Setting platform to 20203000.i2s
 # [    7.624559] asoc-simple-card asoc-simple-card.0: ASoC: CPU DAI 20203000.i2s not registered - will retry
 #  ... snip ...
@@ -101,13 +101,13 @@ First, get dkms. On Raspbian this should be:
 
 Then copy the root of this repository to `/usr/share`:
 
-	sudo cp -R . /usr/src/snd-i2s_rpi-0.0.2 (or whatever version number declared on dkms.conf is)
-	sudo dkms add -m snd-i2s_rpi -v 0.0.2
+	sudo cp -R . /usr/src/snd-i2s_rpi-0.0.3 (or whatever version number declared on dkms.conf is)
+	sudo dkms add -m snd-i2s_rpi -v 0.0.3
 
 Build and load the module:
 
-	sudo dkms build -m snd-i2s_rpi -v 0.0.2
-	sudo dkms install -m snd-i2s_rpi -v 0.0.2
+	sudo dkms build -m snd-i2s_rpi -v 0.0.3
+	sudo dkms install -m snd-i2s_rpi -v 0.0.3
 
 Now you have a proper dkms module that will work for a long time... hopefully.
 
