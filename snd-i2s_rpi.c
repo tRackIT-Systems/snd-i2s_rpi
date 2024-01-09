@@ -5,13 +5,13 @@
  *
  *    Description:  
  *
- *        Version:  0.0.3
- *        Created:  2020-03-19
+ *        Version:  0.0.4
+ *        Created:  2024-01-09
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Huan Truong (htruong@tnhh.net), originally written by Paul Creaser
- *   Organization:  Crankshaft (http://getcrankshaft.com)
+ *         Author:  Jonas Höchst (hoechst@trackit.systems), originally written by Paul Creaser
+ *   Organization:  tRackIT Systems (http://trackit.systems)
  *
  * =====================================================================================
  */
@@ -42,7 +42,7 @@ void device_release_callback(struct device *dev) { /*  do nothing */ };
 
 static short rpi_platform_generation = 1;
 module_param(rpi_platform_generation, short, 0);
-MODULE_PARM_DESC(rpi_platform_generation, "Raspberry Pi generation: 0=Zero, 1=Others");
+MODULE_PARM_DESC(rpi_platform_generation, "Raspberry Pi Generation: 0 = RPiZero; 1 = RPi2, RPi3; 2 = RPi4");
 
 static struct asoc_simple_card_info default_snd_rpi_simple_card_info = {
 	.card = "snd_rpi_i2s_card", // -> snd_soc_card.name
@@ -72,6 +72,7 @@ static struct platform_device default_snd_rpi_simple_card_device = {
 
 static char *pri_platform = "3f203000.i2s";
 static char *alt_platform = "20203000.i2s";
+static char *pi4_platform = "7e203000.i2s";
 
 static struct asoc_simple_card_info card_info;
 static struct platform_device card_device;
@@ -87,6 +88,8 @@ int i2s_rpi_init(void)
 	card_platform = pri_platform;
 	if (rpi_platform_generation == 0) {
 		card_platform = alt_platform;
+	} else if (rpi_platform_generation == 2) {
+		card_platform = pi4_platform;
 	}
 
 	printk(KERN_INFO "snd-i2s_rpi: Setting platform to %s\n", card_platform);
@@ -119,6 +122,6 @@ void i2s_rpi_exit(void)
 module_init(i2s_rpi_init);
 module_exit(i2s_rpi_exit);
 MODULE_DESCRIPTION("ASoC simple-card I2S Microphone");
-MODULE_AUTHOR("Huan Truong <htruong@tnhh.net>");
+MODULE_AUTHOR("Jonas Höchst <hoechst@trackit.systems>");
 MODULE_LICENSE("GPL v2");
 

@@ -111,4 +111,31 @@ Build and load the module:
 
 Now you have a proper dkms module that will work for a long time... hopefully.
 
+# Loading a driver via DT Overlay
 
+In newer Linux versions a special device driver is not needed anymore. Instead, a Device Tree overlay can be used, as described [here](https://forums.raspberrypi.com/viewtopic.php?t=347811). 
+
+An overlay using the general purpose [`dmic`](https://github.com/raspberrypi/linux/blob/5d9075ed7e73dc6ccebf78710c78f39ddc2dd78e/sound/soc/codecs/dmic.c) codec and ALSAs `simple-audio-card` can be found in [i2s-soundcard.dts](./i2s-soundcard.dts).
+
+The dts can be compiled using this command, which will create an overlay binary objectin `/boot/overlays`:
+
+```
+$ sudo dtc -o /boot/overlays/i2s-soundcard.dtbo i2s-soundcard.dts        
+i2s-soundcard.dts:25.16-41.7: Warning (unit_address_vs_reg): /fragment@2: node has a unit name, but no reg or ranges property
+```
+
+To test the overlay it can be loaded using `dtoverlay`, i.e.:
+
+```
+dtoverlay i2s-soundcard
+```
+
+The capture device should then be available:
+
+```
+$ arecord -l
+**** List of CAPTURE Hardware Devices ****
+card 3: soundcard [soundcard], device 0: bcm2835-i2s-dmic-hifi dmic-hifi-0 [bcm2835-i2s-dmic-hifi dmic-hifi-0]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+```
